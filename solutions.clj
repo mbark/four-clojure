@@ -240,3 +240,18 @@ partition-by identity
     (for [x l]
       {(class x) [x]}
     ))))
+
+;; 157. Transform a sequence into a sequence of pairs containing the original elements along with their index.
+(defn index-seq [s]
+  (loop [l s i 0 ans []]
+    (if (empty? l)
+      ans
+      (recur (rest l) (inc i) (concat ans [[(first l) i]])))))
+
+;; 158. Write a function that accepts a curried function of unknown arity n. Return an equivalent function of n arguments. 
+(defn decurry [f]
+  (fn [& l]
+    (loop [func f args l]
+      (if-not (fn? func)
+        func
+        (recur (func (first args)) (rest args))))))
