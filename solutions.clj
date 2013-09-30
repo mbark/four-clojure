@@ -233,3 +233,10 @@ partition-by identity
           ans
           [(map #(nth s %) (range x (count s) n))])
         (inc x)))))
+
+;; 50. Write a function which takes a sequence consisting of items with different types and splits them up into a set of homogeneous sub-sequences.
+(defn split-by-type [l]
+  (vals (apply merge-with concat
+    (for [x l]
+      {(class x) [x]}
+    ))))
