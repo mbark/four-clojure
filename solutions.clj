@@ -218,3 +218,18 @@ partition-by identity
       (tree? (last l)))
     :else false))
 
+;; 44. Write a function which can rotate a sequence in either direction.
+(defn rotate [n s]
+  (let [l (mod n (count s))]
+    (concat (drop l s) (take l s))))
+
+;; 43. Write a function which reverses the interleave process into x number of subsequences.
+(defn rev-interleave [s n]
+  (loop [ans [] x 0]
+    (if (= x n)
+      ans
+      (recur
+        (concat
+          ans
+          [(map #(nth s %) (range x (count s) n))])
+        (inc x)))))
