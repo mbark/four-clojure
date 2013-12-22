@@ -273,3 +273,25 @@ partition-by identity
   (set
     (map set
          (vals (group-by f d)))))
+
+;; 100. Least Common Multiple
+(defn lcm [& nrs]
+  (/
+   (apply * nrs)
+   ((fn gcd [v]
+    (reduce
+      (fn [n1 n2]
+        (if (= n2 0)
+          n1
+          (recur n2 (rem n1 n2))))
+     v))
+    nrs)))
+
+;; 77. Anagram finder
+(defn anagram [v]
+   (set
+    (map
+      set
+      (filter
+        #(> (count %) 1)
+        (vals (group-by sort v))))))
