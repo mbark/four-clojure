@@ -90,9 +90,9 @@ partition-by identity
 
 ;; 41. Write a function which drops every Nth item from a sequence.
 (fn [coll n]
-	(flatten 
-		(concat 
-			(map #(drop-last %) (partition n coll)) 
+	(flatten
+		(concat
+			(map #(drop-last %) (partition n coll))
 			(take-last (rem (count coll) n) coll))))
 
 ;; 49. Write a function which will split a sequence into two parts.
@@ -248,7 +248,7 @@ partition-by identity
 			ans
 			(recur (rest l) (inc i) (concat ans [[(first l) i]])))))
 
-;; 158. Write a function that accepts a curried function of unknown arity n. Return an equivalent function of n arguments. 
+;; 158. Write a function that accepts a curried function of unknown arity n. Return an equivalent function of n arguments.
 (defn decurry [f]
 	(fn [& l]
 		(loop [func f args l]
@@ -267,3 +267,9 @@ partition-by identity
 						(binom (dec n) (dec k))
 						(binom (dec n) k))))]]
 			(f (dec n) i)))
+
+;; 98. Equivalence Classes
+(defn equiv [f d]
+  (set
+    (map set
+         (vals (group-by f d)))))
