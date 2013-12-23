@@ -295,3 +295,18 @@ partition-by identity
       (filter
         #(> (count %) 1)
         (vals (group-by sort v))))))
+
+;; 96. Beauty is Symmetry
+(defn symmetric [[root left right]]
+  (=
+   ((fn mirror [[r le ri]]
+      (if r
+        [r (mirror ri) (mirror le)]
+        r)) left)
+   right))
+
+;; 102. intoCamelCase
+(defn camel-case [s]
+  (reduce
+   #(str %1 (clojure.string/capitalize %2))
+   (clojure.string/split s #"-")))
