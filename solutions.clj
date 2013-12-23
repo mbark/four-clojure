@@ -310,3 +310,38 @@ partition-by identity
   (reduce
    #(str %1 (clojure.string/capitalize %2))
    (clojure.string/split s #"-")))
+
+;; 128. Recognize Playing Cards
+(defn playing-cards [[suit rank]]
+  {
+   :suit
+   (case suit
+     \D :diamond
+     \H :heart
+     \C :club
+     \S :spades)
+   :rank
+   (case rank
+     \2 0
+     \3 1
+     \4 2
+     \5 3
+     \6 4
+     \7 5
+     \8 6
+     \9 7
+     \T 8
+     \J 9
+     \Q 10
+     \K 11
+     \A 12)
+   })
+
+;; 146. Trees into tables
+(defn to-table [tree]
+  (apply clojure.set/union
+    (for [[k1 m] tree]
+      (apply clojure.set/union
+        (for [[k2 v] m]
+          (hash-map
+           [k1 k2] v))))))
