@@ -345,3 +345,10 @@ partition-by identity
         (for [[k2 v] m]
           (hash-map
            [k1 k2] v))))))
+
+;; 153. Pairwise Disjoint Sets
+(defn disj? [sets]
+  (every?
+    empty?
+   (for [s1 sets s2 sets :when (not= s1 s2)]
+     (clojure.set/intersection s1 s2))))
