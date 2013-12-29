@@ -352,3 +352,15 @@ partition-by identity
     empty?
    (for [s1 sets s2 sets :when (not= s1 s2)]
      (clojure.set/intersection s1 s2))))
+
+;; 46. Flipping Out
+(defn flip [f]
+  (fn [& args]
+    (apply f (reverse args))))
+
+;; 56. Find Distinct Items
+(defn distinct2 [lst]
+  (reduce
+   #(if (some #{%2} %1) %1 (conj %1 %2))
+   []
+   lst))
