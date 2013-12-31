@@ -364,3 +364,26 @@ partition-by identity
    #(if (some #{%2} %1) %1 (conj %1 %2))
    []
    lst))
+
+;; 58. Function Composition
+(defn compose [& fns]
+  (fn [& args]
+    (reduce
+     #(%2 %1)
+     (apply (last fns) args)
+     (reverse (butlast fns)))))
+
+;; 59. Juxtaposition
+(defn jux [& fns]
+  (fn [& args]
+    (for [f fns]
+      (apply f args))))
+
+;; 60. Sequence Reductions
+(defn red
+  ([f s lst] (red f (cons s lst)))
+  ([f lst] (lazy-seq
+    (map-indexed
+     (fn [i x] (reduce f (take (inc i) lst)))
+     lst))))
+
