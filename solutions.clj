@@ -393,3 +393,43 @@ partition-by identity
    clojure.string/lower-case
    (clojure.string/split s #"[ !.]")))
 
+;; 78. Reimplement Trampoline
+(defn tramp [f & args]
+  (loop [val (apply f args)]
+    (if-not (fn? val)
+      val
+      (recur (val)))))
+
+;; 69. Merge with a Function
+(defn m-with [f & maps]
+  (reduce
+   (fn [m v]
+     (assoc m v
+       (#(if (> (count %) 1)
+           (apply f %)
+           (first %))
+         (remove nil?
+                 (map #(% v) maps)))))
+   {}
+   (distinct (flatten (map keys maps)))))
+
+;; 86. Happy Numbers
+(defn happy?
+  ([n] (happy? n 0))
+  ([n tries]
+   (cond
+    (= 1 n) true
+    (> tries 10) false
+    :else (happy?
+           (reduce +
+                   (map #(* % %)
+                        (map #(Character/getNumericValue %) (str n))))
+           (inc tries)))))
+
+;; 80. Perfect Numbers
+(defn perfect? [n]
+  (= n
+     (reduce
+      #(if (zero? (mod n %2)) (+ %1 %2) %1)
+      0
+      (range 1 n))))
