@@ -387,3 +387,9 @@ partition-by identity
      (fn [i x] (reduce f (take (inc i) lst)))
      lst))))
 
+;; 70. Word Sorting
+(defn wsort [s]
+  (sort-by
+   clojure.string/lower-case
+   (clojure.string/split s #"[ !.]")))
+
