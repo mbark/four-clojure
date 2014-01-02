@@ -433,3 +433,11 @@ partition-by identity
       #(if (zero? (mod n %2)) (+ %1 %2) %1)
       0
       (range 1 n))))
+
+;; 54. Partition a Sequence
+(defn part [n lst]
+  (map
+   #(take n (drop (* n %) lst))
+   (range (quot (count lst) n))))
+
+(part 2 (range 9))
