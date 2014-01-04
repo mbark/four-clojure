@@ -440,4 +440,20 @@ partition-by identity
    #(take n (drop (* n %) lst))
    (range (quot (count lst) n))))
 
-(part 2 (range 9))
+;; 120. Sum of square of digits
+(defn count-squared [lst]
+  (count
+   (filter
+    (fn [n] (< n (reduce + (map #(* % %) (map #(Character/getNumericValue %) (str n))))))
+    lst)))
+
+;; 147. Pascal's Trapezoid
+(defn pascal-trap [last-row]
+  (iterate
+   (fn [r]
+     (concat
+      [(first r)]
+      (map-indexed
+       #(+' %2 (nth r (inc %1) 0))
+       r)))
+   last-row))
