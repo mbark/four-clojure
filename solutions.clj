@@ -467,3 +467,12 @@ partition-by identity
        (filter #(not= 0 (mod % (first primes))) primes)
        (conj res (first primes))
        (inc n)))))
+
+;; 74. Filter Perfect Squares
+(defn filter-squares [nrs]
+  (apply str (interpose ","
+  (filter
+   (fn [x] (= x (int (Math/pow (int (Math/sqrt x)) 2))))
+   (map
+    #(Integer/parseInt %)
+    (clojure.string/split nrs #","))))))
