@@ -457,3 +457,13 @@ partition-by identity
        #(+' %2 (nth r (inc %1) 0))
        r)))
    last-row))
+
+;; 67. Prime Numbers
+(defn primes [x]
+  (loop [primes (drop 2 (range)) res [] n 0]
+    (if (= n x)
+      res
+      (recur
+       (filter #(not= 0 (mod % (first primes))) primes)
+       (conj res (first primes))
+       (inc n)))))
