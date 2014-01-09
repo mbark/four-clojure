@@ -476,3 +476,30 @@ partition-by identity
    (map
     #(Integer/parseInt %)
     (clojure.string/split nrs #","))))))
+
+;; 53. Longest Increasing Sub-Seq
+(defn longest-subseq [lst]
+  (let
+    [v (first (sort-by
+      count >
+      (reductions
+       #(if (= %2 (inc (last %1)))
+          (conj %1 %2)
+          [%2])
+       [(first lst)]
+       (rest lst))))]
+    (if (> (count v) 1) v [])))
+
+;; 75. Euler's Totient Function
+(defn totient [n]
+  (if (= 1 n) 1
+    (count
+     (filter
+      #(=
+        1
+        ((fn gcd [a b]
+           (if (= b 0)
+             a
+             (gcd b (rem a b))))
+         % n))
+      (range 1 n)))))
