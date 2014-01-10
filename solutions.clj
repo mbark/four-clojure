@@ -503,3 +503,12 @@ partition-by identity
              (gcd b (rem a b))))
          % n))
       (range 1 n)))))
+
+;; 105. Identify keys and values
+(defn id-k-v
+  ([x] (id-k-v x {}))
+  ([[k & r] a]
+     (if k
+       (let [[v n] (split-with number? r)]
+        (id-k-v n (conj a [k v])))
+       a)))
