@@ -504,6 +504,7 @@ partition-by identity
          % n))
       (range 1 n)))))
 
+
 ;; 105. Identify keys and values
 (defn id-k-v
   ([x] (id-k-v x {}))
@@ -512,3 +513,14 @@ partition-by identity
        (let [[v n] (split-with number? r)]
         (id-k-v n (conj a [k v])))
        a)))
+
+;; 115. The Balance of N
+(defn n-balanced? [n]
+  (let [lst (str n)
+        half (/ (count lst) 2)
+        [l r] (split-at half lst)
+        f (fn [l] (reduce #(+ % (Character/getNumericValue %2)) 0 l))]
+    (=
+     (f (take (int half) l))
+     (f r))))
+
