@@ -504,7 +504,6 @@ partition-by identity
          % n))
       (range 1 n)))))
 
-
 ;; 105. Identify keys and values
 (defn id-k-v
   ([x] (id-k-v x {}))
@@ -524,3 +523,59 @@ partition-by identity
      (f (take (int half) l))
      (f r))))
 
+;; 144. Oscilrate
+(defn oscilrate [n & r]
+  (reductions
+   #(%2 %)
+   n
+   (cycle r)))
+
+;; 132. Insert between two items
+(defn insert-between [p v [f & r]]
+  (let [s (first r)]
+    (cond
+     (nil? f) []
+     (nil? s) [f]
+     :else
+     (lazy-cat
+      (if (p f s) [f v] [f])
+      (insert-between p v r)))))
+
+;; 92. Read Roman Numerals
+(defn roman-to-num [in]
+  (let [l (map #({\I 1 \V 5 \X 10 \L 50 \C 100 \D 500 \M 1000} %) in)]
+    (loop [n 0 p 1001 [f & r] l]
+      (if (nil? f)
+        n
+        (recur
+         (if (> f p) (+ n (- f p p)) (+ n f))
+         f
+         r)))))
+
+;; 104. Write Roman Numerals
+(defn num-to-roman [in]
+  (loop [s "" n in]
+    (if (= 0 n)
+      s
+      (let [[k v]
+            (reduce #(if (> (key %) (key %2)) % %2)
+             (filter
+              #(>= n (key %))
+              {1000 "M" 900 "CM" 500 "D" 400 "CD"
+               100 "C" 90 "XC" 50 "L" 40 "XL"
+               10 "X" 9 "IX" 5 "V" 4 "IV" 1 "I"}))]
+        (recur
+         (str s v)
+         (- n k))))))
+
+;; 108. Lazy Searching
+(defn lazy-search [& seqs]
+  (let [f (map first seqs)]
+    (if (apply = f)
+      (first f)
+      (let [v (reduce min f)]
+        (apply
+         lazy-search
+         (map
+          #(if (= (first %) v) (rest %) %)
+          seqs))))))
