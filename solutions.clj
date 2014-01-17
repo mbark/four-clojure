@@ -579,3 +579,63 @@ partition-by identity
          (map
           #(if (= (first %) v) (rest %) %)
           seqs))))))
+
+;; 148. The Big Divide
+(defn big-div [n a b]
+  (letfn [(f [x] (reduce + (range x n x)))]
+    (- (+ (f a) (f b)) (f (* a b)))))
+
+;; 114. Global take-while
+(defn g-take-while [n p [f & r]]
+  (if (and (p f) (= n 1))
+    []
+    (cons
+     f
+     (g-take-while
+      (if (p f)
+        (dec n)
+        n)
+      p r))))
+
+;; 110. Sequence of pronunciations
+(defn pronounce [l]
+  (next
+   (iterate
+    #(flatten
+      (for [n (partition-by identity %)]
+        [(count n) (first n)]))
+    l)))
+
+;; 168. Infinite Matrix (this problem was just shit)
+(defn inf-matrix
+  ([f]
+   (letfn [(r [] (reductions + 0 (repeatedly (constantly 1))))]
+   (map
+    (fn [n]
+      (map
+       #(f n %)
+       (r)))
+    (r))))
+  ([f m n]
+   (letfn [(d [n l] (second (split-at n l)))]
+   (d m
+    (map
+     #(d n %)
+     (inf-matrix f)))))
+  ([f m n s t]
+   (take
+    s
+    (map
+     #(take t %)
+     (inf-matrix f m n)))))
+
+;; 171. Intervals
+(defn intervals
+  ([l]
+   (let [[f & r] (distinct (sort l))]
+     (intervals f f r)))
+  ([s l [v & r]]
+   (cond
+    (nil? s) []
+    (= (inc l) v) (intervals s v r)
+    :else (cons [s l] (intervals v v r)))))
