@@ -639,3 +639,45 @@ partition-by identity
     (nil? s) []
     (= (inc l) v) (intervals s v r)
     :else (cons [s l] (intervals v v r)))))
+
+;; 79. Triangle Minimal Path
+(defn min-tri-path [t]
+  (first
+   (reduce
+    #(for [i (range (count %2))]
+       (+
+        (nth %2 i)
+        (min
+         (nth % i)
+         (nth % (inc i)))))
+    (reverse t))))
+
+;; 89. Graph Tour
+(defn graph-tour? [g]
+  (not
+   (every?
+    nil?
+    (flatten
+     ((fn w? [c g]
+        (if (empty? g)
+          true
+          (map
+           (fn [[a b]]
+             (let [o (remove #(= % [a b]) g)]
+               (cond
+                (= c a) (w? b o)
+                (= c b) (w? a o)
+                :else nil)))
+           g)))
+      (ffirst g)
+      g)))))
+
+;; 137. Digits and Bases
+(defn digits-with-base
+  ([d b] (digits-with-base d b nil))
+  ([d b l]
+   (if (= d 0)
+     (if l [] [0])
+     (conj
+      (digits-with-base (quot d b) b true)
+      (rem d b)))))
