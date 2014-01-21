@@ -681,3 +681,21 @@ partition-by identity
      (conj
       (digits-with-base (quot d b) b true)
       (rem d b)))))
+
+;; 84. Transitive Closure
+(defn transitives [r]
+  (letfn
+    [(f [l]
+        (into
+         l
+         (mapcat
+          (fn [[a b]]
+            (map
+             (fn [[c d]] [a d])
+             (filter #(= (first %) b) l)))
+          l)))]
+    (loop [res r n (f r)]
+      (println res n)
+      (if (= res n)
+        res
+        (recur n (f n))))))
