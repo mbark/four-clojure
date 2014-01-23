@@ -699,3 +699,14 @@ partition-by identity
       (if (= res n)
         res
         (recur n (f n))))))
+
+;; 65. Black Box Testing
+(defn black-box [l]
+  (cond
+   (reversible? l) :vector
+   (associative? l) :map
+   :else
+   (let [k (count (conj l :o :o)) j (count l)]
+     (if (= (- k j) 2)
+       :list
+       :set))))
