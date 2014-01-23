@@ -710,3 +710,11 @@ partition-by identity
      (if (= (- k j) 2)
        :list
        :set))))
+
+;; 93. Partially Flatten a Sequence
+(defn partial-flatten [l]
+  (letfn [(f [x] (some sequential? x))]
+    (filter
+     (complement f)
+     (tree-seq f seq l))))
+
