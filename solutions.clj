@@ -718,3 +718,30 @@ partition-by identity
      (complement f)
      (tree-seq f seq l))))
 
+;; 85. Power Set
+(defn power-set [s]
+  (let
+    [n (count s)
+     b (map
+        #(map (partial bit-test %) (range n))
+        (range (Math/pow 2 n)))
+     l (seq s)]
+    (into
+     #{}
+     (map
+      #(into
+        #{}
+        (keep-indexed (fn [i x] (if x (nth l i))) %))
+      b))))
+
+;; 116. Prime Sandwich (no idea why this isn't fast enough...)
+(defn prime-sandwich? [n]
+  (let
+    [f (fn [l]
+         (filter #(.isProbablePrime (BigInteger/valueOf %) 5) l))
+     [p i] (f (range n 0 -1))
+     [_ j] (f (range n Integer/MAX_VALUE))]
+    (and
+     i
+     (= n p)
+     (= n (/ (+ i j) 2)))))
