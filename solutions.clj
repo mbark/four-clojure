@@ -745,3 +745,30 @@ partition-by identity
      i
      (= n p)
      (= n (/ (+ i j) 2)))))
+
+;; 103. Generating k-combinations
+(defn k-combinations [n s]
+  (into
+   #{}
+   (filter
+    #(= n (count %))
+    (reduce
+     (fn [m v]
+       (into m
+             (map #(conj % v) m)))
+     #{#{}}
+     s))))
+
+;; 121. Universal Computation Engine
+(defn universal
+  ([l] #(universal l %))
+  ([l m]
+   (if (seq? l)
+     (let [[f & a] (map #(universal % m) l)]
+       (apply f a))
+     (if (number? l)
+       l
+       (if-let [f (l {'+ + '* * '/ / '- -})]
+         f
+         (l m))))))
+
