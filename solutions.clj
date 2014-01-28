@@ -772,3 +772,39 @@ partition-by identity
          f
          (l m))))))
 
+;; 131. Sum Some Set Subsets
+(defn sum-subsets? [& s]
+  ((complement empty?)
+   (reduce
+    #(clojure.set/intersection (set %) (set %2))
+    (map
+     #(map (partial reduce +) %)
+     (map
+      #(remove empty? %)
+      (map
+       (fn [l]
+         (reduce
+          (fn [m v]
+            (into m (map #(conj % v) m)))
+          #{#{}}
+          l))
+       s))))))
+
+(defn balanced? [s]
+  (let
+    [lft {\( \) \{ \} \[ \]}
+     rgt {\) \( \} \{ \] \[}
+     red  (reductions
+           (fn [l x]
+             (if-let [a (lft x)]
+               (conj l x)
+               (if-let [a (rgt x)]
+                 (if (= a (peek l))
+                   (pop l)
+                   false)
+                 l)))
+           []
+           s)]
+    (if (some false? red)
+      false
+      (empty? (last red)))))
