@@ -790,6 +790,7 @@ partition-by identity
           l))
        s))))))
 
+;; 177 Balancing Brackets
 (defn balanced? [s]
   (let
     [lft {\( \) \{ \} \[ \]}
@@ -808,3 +809,4 @@ partition-by identity
     (if (some false? red)
       false
       (empty? (last red)))))
+
