@@ -17,17 +17,17 @@
 
 ;; 22. Write a function which returns the total number of elements in a sequence.
 (fn [lst]
-	(loop [len 0 x lst]
-		(if (empty? x)
-			len
-			(recur (+ 1 len) (rest x)))))
+  (loop [len 0 x lst]
+    (if (empty? x)
+      len
+      (recur (+ 1 len) (rest x)))))
 
 ;; 23. Write a function which reverses a sequence.
 (fn [lst]
-	(loop [l1 lst l2 []]
-		(if (empty? l1)
-			l2
-			(recur (rest l1) (concat [(first l1)] l2)))))
+  (loop [l1 lst l2 []]
+    (if (empty? l1)
+      l2
+      (recur (rest l1) (concat [(first l1)] l2)))))
 
 ;; 24. Write a function which returns the sum of a sequence of numbers.
 reduce (fn [sum x] (+ sum x))
@@ -43,38 +43,38 @@ reduce (fn [sum x] (+ sum x))
 
 ;; 29. Write a function which takes a string and returns a new string containing only the capital letters.
 (fn [x]
-	(apply str (filter #(Character/isUpperCase %) x)))
+  (apply str (filter #(Character/isUpperCase %) x)))
 
 ;; 134. Write a function which, given a key and map, returns true iff the map contains an entry with that key and its value is nil.
 (fn [k s]
-	(and (contains? s k) (nil? (get s k))))
+  (and (contains? s k) (nil? (get s k))))
 
 ;; 32. Write a function which duplicates each element of a sequence.
 (fn [x] (apply concat (map #(vector % %) x)))
 
 ;; 34. Write a function which creates a list of all integers in a given range.
 (fn [start end]
-	(loop [i start lst []]
-		(if (= i end)
-			lst
-			(recur (+ i 1) (conj lst i)))))
+  (loop [i start lst []]
+    (if (= i end)
+      lst
+      (recur (+ i 1) (conj lst i)))))
 
 ;; 42. Write a function which calculates factorials.
 (fn [n]
-	(reduce #(* %1 %2) (range 1 (inc n))))
+  (reduce #(* %1 %2) (range 1 (inc n))))
 
 ;; 28. Write a function which flattens a sequence.
 (fn [x]
-	(filter (complement sequential?)
-		(rest (tree-seq sequential? seq x))))
+  (filter (complement sequential?)
+          (rest (tree-seq sequential? seq x))))
 
 ;; 39. Write a function which takes two sequences and returns the first item from each, then the second item from each, then the third, etc.
 (fn zip [c1 c2]
-	(let [s1 (seq c1) s2 (seq c2)]
-		(when (and s1 s2)
-			(cons (first s1)
-				(cons (first s2)
-					(zip (rest s1) (rest s2)))))))
+  (let [s1 (seq c1) s2 (seq c2)]
+    (when (and s1 s2)
+      (cons (first s1)
+            (cons (first s2)
+                  (zip (rest s1) (rest s2)))))))
 
 ;; 30. Write a function which removes consecutive duplicates from a sequence.
 (fn [x] (map first (partition-by identity x)))
@@ -90,211 +90,211 @@ partition-by identity
 
 ;; 41. Write a function which drops every Nth item from a sequence.
 (fn [coll n]
-	(flatten
-		(concat
-			(map #(drop-last %) (partition n coll))
-			(take-last (rem (count coll) n) coll))))
+  (flatten
+   (concat
+    (map #(drop-last %) (partition n coll))
+    (take-last (rem (count coll) n) coll))))
 
 ;; 49. Write a function which will split a sequence into two parts.
 (fn [n lst]
-	(vector (take n lst) (drop n lst)))
+  (vector (take n lst) (drop n lst)))
 
 ;; 34. Write a function which creates a list of all integers in a given range.
 (fn [start end]
-	(loop [i start lst []]
-		(if (= i end)
-			lst
-			(recur (+ i 1) (conj lst i)))))
+  (loop [i start lst []]
+    (if (= i end)
+      lst
+      (recur (+ i 1) (conj lst i)))))
 
 ;; 166. For any orderable data type it's possible to derive all of the basic comparison operations (<, ≤, =, ≠, ≥, and >) from a single operation (any operator but = or ≠ will work). Write a function that takes three arguments, a less than operator for the data and two items to compare. The function should return a keyword describing the relationship between the two items. The keywords for the relationship between x and y are as follows:
 (fn [f v1 v2]
-	(keyword (if (f v1 v2)
-		"lt"
-		(if (f v2 v1)
-			"gt"
-			"eq"))))
+  (keyword (if (f v1 v2)
+             "lt"
+             (if (f v2 v1)
+               "gt"
+               "eq"))))
 
 ;; 83. Write a function which takes a variable number of booleans. Your function should return true if some of the parameters are true, but not all of the parameters are true. Otherwise your function should return false.
 (fn [& args]
-	(if (nil?
-		(and
-			(some true? args)
-			(some false? args)))
-	false
-	true))
+  (if (nil?
+       (and
+        (some true? args)
+        (some false? args)))
+    false
+    true))
 
 ;; 61. Write a function which takes a vector of keys and a vector of values and constructs a map from them.
 (fn zipmap-2 [k v]
-	(loop [ks k vs v m {}]
-		(if (or (empty? ks) (empty? vs))
-			m
-			(recur (rest ks) (rest vs) (into m {(first ks) (first vs)})))))
+  (loop [ks k vs v m {}]
+    (if (or (empty? ks) (empty? vs))
+      m
+      (recur (rest ks) (rest vs) (into m {(first ks) (first vs)})))))
 
 ;; 66. Given two integers, write a function which returns the greatest common divisor.
 (fn [n1 n2]
-	(loop [d 1 ans 1]
-		(if (or (> d n1) (> d n2))
-			ans
-			(if (and (= (mod n1 d) 0) (= (mod n2 d) 0))
-				(recur (inc d) d)
-				(recur (inc d) ans)))))
+  (loop [d 1 ans 1]
+    (if (or (> d n1) (> d n2))
+      ans
+      (if (and (= (mod n1 d) 0) (= (mod n2 d) 0))
+        (recur (inc d) d)
+        (recur (inc d) ans)))))
 
 ;; 81. Write a function which returns the intersection of two sets. The intersection is the sub-set of items that each set has in common.
 (fn [s1 s2]
-	(loop [lst s1 ans #{}]
-		(if (empty? lst)
-			ans
-			(if (contains? s2 (first lst))
-				(recur (rest lst) (into ans [(first lst)]))
-				(recur (rest lst) ans)))))
+  (loop [lst s1 ans #{}]
+    (if (empty? lst)
+      ans
+      (if (contains? s2 (first lst))
+        (recur (rest lst) (into ans [(first lst)]))
+        (recur (rest lst) ans)))))
 
 ;; 62. Given a side-effect free function f and an initial value x write a function which returns an infinite lazy sequence of x, (f x), (f (f x)), (f (f (f x))), etc.
 (fn foo [f x]
-	(cons x (lazy-seq (foo f (f x)))))
+  (cons x (lazy-seq (foo f (f x)))))
 
 ;; 107. It can be hard to follow in the abstract, so let's build a simple closure. Given a positive integer n, return a function (f x) which computes xn. Observe that the effect of this is to preserve the value of n for use outside the scope in which it is defined.
 (fn [n]
-	(fn [x]
-		(reduce * (repeat n x))))
+  (fn [x]
+    (reduce * (repeat n x))))
 
 ;; 99. Write a function which multiplies two numbers and returns the result as a sequence of its digits.
 (fn [n1 n2]
-	(loop [n (* n1 n2) lst []]
-		(if (= n 0)
-			lst
-			(recur (quot n 10) (concat [(mod n 10)] lst)))))
+  (loop [n (* n1 n2) lst []]
+    (if (= n 0)
+      lst
+      (recur (quot n 10) (concat [(mod n 10)] lst)))))
 
 ;; 90. Write a function which calculates the Cartesian product of two sets.
 (fn [l1 l2]
-	(let [n (* (count l1) (count l2))]
-		(into #{}
-			(map vector
-				(sort (take n (cycle l1))) (take n (cycle l2))))))
+  (let [n (* (count l1) (count l2))]
+    (into #{}
+          (map vector
+               (sort (take n (cycle l1))) (take n (cycle l2))))))
 
 ;; 63. Given a function f and a sequence s, write a function which returns a map. The keys should be the values of f applied to each item in s. The value at each key should be a vector of corresponding items in the order they appear in s.
 (fn [f s]
-	(loop [lst s ans (hash-map)]
-		(if (empty? lst)
-			ans
-			(let [k (f (first lst))]
-				(recur
-					(rest lst)
-					(assoc ans k (concat (get ans k) [(first lst)])))))))
+  (loop [lst s ans (hash-map)]
+    (if (empty? lst)
+      ans
+      (let [k (f (first lst))]
+        (recur
+         (rest lst)
+         (assoc ans k (concat (get ans k) [(first lst)])))))))
 
 ;; 122. Convert a binary number, provided in the form of a string, to its numerical value.
 #(Integer/parseInt % 2)
 
 ;; 88. Write a function which returns the symmetric difference of two sets. The symmetric difference is the set of items belonging to one but not both of the two sets.
 (fn [s1 s2]
-	(let [s (set (concat s1 s2))]
-		(set (filter #(false? (and (contains? s1 %) (contains? s2 %))) s))))
+  (let [s (set (concat s1 s2))]
+    (set (filter #(false? (and (contains? s1 %) (contains? s2 %))) s))))
 
 ;; 143. Create a function that computes the dot product of two sequences. You may assume that the vectors will have the same length.
 #(apply + (map * %1 %2))
 
 ;; 135. Your friend Joe is always whining about Lisps using the prefix notation for math. Show him how you could easily write a function that does math using the infix notation. Is your favorite language that flexible, Joe? Write a function that accepts a variable length mathematical expression consisting of numbers and the operations +, -, *, and /. Assume a simple calculator that does not do precedence and instead just calculates left to right.
 (fn [& args]
-	(if (= (count args) 1)
-		(first args)
-		(let [[x f y & rst] args]
-			(recur (cons (f x y) rst)))))
+  (if (= (count args) 1)
+    (first args)
+    (let [[x f y & rst] args]
+      (recur (cons (f x y) rst)))))
 
 ;; 118. Map is one of the core elements of a functional programming language. Given a function f and an input sequence s, return a lazy sequence of (f x) for each element x in s.
 (fn map-2
-	([f coll]
-		(lazy-seq
-			(when-let [s (seq coll)]
-				(cons (f (first s)) (map-2 f (rest s)))))))
+  ([f coll]
+   (lazy-seq
+    (when-let [s (seq coll)]
+      (cons (f (first s)) (map-2 f (rest s)))))))
 
 ;; 95. Write a predicate which checks whether or not a given sequence represents a binary tree. Each node in the tree must have a value, a left child, and a right child.
 (fn tree? [l]
-	(cond
-		(nil? l) true
-		(coll? l)
-		(and
-			(= 3 (count l))
-			((complement coll?) (first l))
-			(tree? (second l))
-			(tree? (last l)))
-		:else false))
+  (cond
+   (nil? l) true
+   (coll? l)
+   (and
+    (= 3 (count l))
+    ((complement coll?) (first l))
+    (tree? (second l))
+    (tree? (last l)))
+   :else false))
 
 ;; 44. Write a function which can rotate a sequence in either direction.
 (defn rotate [n s]
-	(let [l (mod n (count s))]
-		(concat (drop l s) (take l s))))
+  (let [l (mod n (count s))]
+    (concat (drop l s) (take l s))))
 
 ;; 43. Write a function which reverses the interleave process into x number of subsequences.
 (defn rev-interleave [s n]
-	(loop [ans [] x 0]
-		(if (= x n)
-			ans
-			(recur
-				(concat
-					ans
-					[(map #(nth s %) (range x (count s) n))])
-				(inc x)))))
+  (loop [ans [] x 0]
+    (if (= x n)
+      ans
+      (recur
+       (concat
+        ans
+        [(map #(nth s %) (range x (count s) n))])
+       (inc x)))))
 
 ;; 50. Write a function which takes a sequence consisting of items with different types and splits them up into a set of homogeneous sub-sequences.
 (defn split-by-type [l]
-	(vals (apply merge-with concat
-		(for [x l]
-			{(class x) [x]}
-			))))
+  (vals (apply merge-with concat
+               (for [x l]
+                 {(class x) [x]}
+                 ))))
 
 ;; 157. Transform a sequence into a sequence of pairs containing the original elements along with their index.
 (defn index-seq [s]
-	(loop [l s i 0 ans []]
-		(if (empty? l)
-			ans
-			(recur (rest l) (inc i) (concat ans [[(first l) i]])))))
+  (loop [l s i 0 ans []]
+    (if (empty? l)
+      ans
+      (recur (rest l) (inc i) (concat ans [[(first l) i]])))))
 
 ;; 158. Write a function that accepts a curried function of unknown arity n. Return an equivalent function of n arguments.
 (defn decurry [f]
-	(fn [& l]
-		(loop [func f args l]
-			(if-not (fn? func)
-				func
-				(recur (func (first args)) (rest args))))))
+  (fn [& l]
+    (loop [func f args l]
+      (if-not (fn? func)
+        func
+        (recur (func (first args)) (rest args))))))
 
 ;; 97. Pascal's Triangle
 (defn pascal [n]
-	(for [i (range 0 n)
-		:let [f
-			(fn binom [n k]
-				(if	(or (= k 0) (= k n))
-					1
-					(+
-						(binom (dec n) (dec k))
-						(binom (dec n) k))))]]
-			(f (dec n) i)))
+  (for [i (range 0 n)
+        :let [f
+              (fn binom [n k]
+                (if	(or (= k 0) (= k n))
+                  1
+                  (+
+                   (binom (dec n) (dec k))
+                   (binom (dec n) k))))]]
+    (f (dec n) i)))
 
 ;; 98. Equivalence Classes
 (defn equiv [f d]
   (set
-    (map set
-         (vals (group-by f d)))))
+   (map set
+        (vals (group-by f d)))))
 
 ;; 100. Least Common Multiple
 (defn lcm [& nrs]
   (/
    (apply * nrs)
    ((fn gcd [v]
-    (reduce
-      (fn [n1 n2]
-        (if (= n2 0)
-          n1
-          (recur n2 (rem n1 n2))))
-     v))
+      (reduce
+       (fn [n1 n2]
+         (if (= n2 0)
+           n1
+           (recur n2 (rem n1 n2))))
+       v))
     nrs)))
 
 ;; 77. Anagram finder
 (defn anagram [v]
-   (set
-    (map
-      set
-      (filter
-        #(> (count %) 1)
-        (vals (group-by sort v))))))
+  (set
+   (map
+    set
+    (filter
+     #(> (count %) 1)
+     (vals (group-by sort v))))))
 
 ;; 96. Beauty is Symmetry
 (defn symmetric [[root left right]]
@@ -340,16 +340,16 @@ partition-by identity
 ;; 146. Trees into tables
 (defn to-table [tree]
   (apply clojure.set/union
-    (for [[k1 m] tree]
-      (apply clojure.set/union
-        (for [[k2 v] m]
-          (hash-map
-           [k1 k2] v))))))
+         (for [[k1 m] tree]
+           (apply clojure.set/union
+                  (for [[k2 v] m]
+                    (hash-map
+                     [k1 k2] v))))))
 
 ;; 153. Pairwise Disjoint Sets
 (defn disj? [sets]
   (every?
-    empty?
+   empty?
    (for [s1 sets s2 sets :when (not= s1 s2)]
      (clojure.set/intersection s1 s2))))
 
@@ -383,9 +383,9 @@ partition-by identity
 (defn red
   ([f s lst] (red f (cons s lst)))
   ([f lst] (lazy-seq
-    (map-indexed
-     (fn [i x] (reduce f (take (inc i) lst)))
-     lst))))
+            (map-indexed
+             (fn [i x] (reduce f (take (inc i) lst)))
+             lst))))
 
 ;; 70. Word Sorting
 (defn wsort [s]
@@ -471,23 +471,23 @@ partition-by identity
 ;; 74. Filter Perfect Squares
 (defn filter-squares [nrs]
   (apply str (interpose ","
-  (filter
-   (fn [x] (= x (int (Math/pow (int (Math/sqrt x)) 2))))
-   (map
-    #(Integer/parseInt %)
-    (clojure.string/split nrs #","))))))
+                        (filter
+                         (fn [x] (= x (int (Math/pow (int (Math/sqrt x)) 2))))
+                         (map
+                          #(Integer/parseInt %)
+                          (clojure.string/split nrs #","))))))
 
 ;; 53. Longest Increasing Sub-Seq
 (defn longest-subseq [lst]
   (let
     [v (first (sort-by
-      count >
-      (reductions
-       #(if (= %2 (inc (last %1)))
-          (conj %1 %2)
-          [%2])
-       [(first lst)]
-       (rest lst))))]
+               count >
+               (reductions
+                #(if (= %2 (inc (last %1)))
+                   (conj %1 %2)
+                   [%2])
+                [(first lst)]
+                (rest lst))))]
     (if (> (count v) 1) v [])))
 
 ;; 75. Euler's Totient Function
@@ -508,10 +508,10 @@ partition-by identity
 (defn id-k-v
   ([x] (id-k-v x {}))
   ([[k & r] a]
-     (if k
-       (let [[v n] (split-with number? r)]
-        (id-k-v n (conj a [k v])))
-       a)))
+   (if k
+     (let [[v n] (split-with number? r)]
+       (id-k-v n (conj a [k v])))
+     a)))
 
 ;; 115. The Balance of N
 (defn n-balanced? [n]
@@ -559,11 +559,11 @@ partition-by identity
       s
       (let [[k v]
             (reduce #(if (> (key %) (key %2)) % %2)
-             (filter
-              #(>= n (key %))
-              {1000 "M" 900 "CM" 500 "D" 400 "CD"
-               100 "C" 90 "XC" 50 "L" 40 "XL"
-               10 "X" 9 "IX" 5 "V" 4 "IV" 1 "I"}))]
+                    (filter
+                     #(>= n (key %))
+                     {1000 "M" 900 "CM" 500 "D" 400 "CD"
+                      100 "C" 90 "XC" 50 "L" 40 "XL"
+                      10 "X" 9 "IX" 5 "V" 4 "IV" 1 "I"}))]
         (recur
          (str s v)
          (- n k))))))
@@ -610,18 +610,18 @@ partition-by identity
 (defn inf-matrix
   ([f]
    (letfn [(r [] (reductions + 0 (repeatedly (constantly 1))))]
-   (map
-    (fn [n]
-      (map
-       #(f n %)
-       (r)))
-    (r))))
+     (map
+      (fn [n]
+        (map
+         #(f n %)
+         (r)))
+      (r))))
   ([f m n]
    (letfn [(d [n l] (second (split-at n l)))]
-   (d m
-    (map
-     #(d n %)
-     (inf-matrix f)))))
+     (d m
+        (map
+         #(d n %)
+         (inf-matrix f)))))
   ([f m n s t]
    (take
     s
@@ -810,3 +810,18 @@ partition-by identity
       false
       (empty? (last red)))))
 
+;; 73. Analyze a Tic-Tac-Toe Board
+(defn tic-tac-toe [b]
+  (let [f (fn [l] (reduce #(if (and
+                                (=  %1 %2)
+                                (not= %2 :e))
+                             %2 nil)
+                          l))
+        f1 (fn [m] (map f m))
+        f2 (fn [m] (apply map list m))
+        f3 (fn [m] (map-indexed #(nth %2 %1) m))
+        f4 (fn [m] (map-indexed #(nth %2 (- 2 %1)) m))]
+    (reduce
+     #(if (not (nil? %2)) %2 %1)
+     nil
+     (flatten [(f1 b) (f1 (f2 b)) (f (f3 b)) (f (f4 b))]))))
