@@ -825,3 +825,16 @@ partition-by identity
      #(if (not (nil? %2)) %2 %1)
      nil
      (flatten [(f1 b) (f1 (f2 b)) (f (f3 b)) (f (f4 b))]))))
+
+;; 141. Tricky card games
+(defn tricky-card-games [t]
+  (fn [c]
+    (let [f1 (fn [a b] (= (:suit a) (:suit b)))
+          f2 (fn [a b] (> (:rank a) (:rank b)))]
+      (reduce
+       #(cond
+         (and (= t %1) (f1 %1 %2) (f2 %2 %1)) %2
+         (and (= t (:suit %2)) (not= t (:suit %1))) %2
+         (and (f1 %1 %2) (f2 %2 %1)) %2
+         :else %1)
+       c))))
