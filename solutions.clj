@@ -838,3 +838,17 @@ partition-by identity
          (and (f1 %1 %2) (f2 %2 %1)) %2
          :else %1)
        c))))
+
+;; 112. Sequs Horribilis
+(defn sequs [a [n & l]]
+  (if (nil? n)
+    []
+    (if (vector? n)
+      (let [o (f a n)
+            s (- a (reduce + (flatten o)))]
+        (if (empty? o)
+          []
+          (cons o (lazy-seq (sequs s l)))))
+      (if (> n a)
+        []
+        (cons n (lazy-seq (sequs (- a n) l)))))))
