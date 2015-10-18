@@ -844,7 +844,7 @@ partition-by identity
   (if (nil? n)
     []
     (if (vector? n)
-      (let [o (f a n)
+      (let [o (sequs a n)
             s (- a (reduce + (flatten o)))]
         (if (empty? o)
           []
@@ -852,3 +852,15 @@ partition-by identity
       (if (> n a)
         []
         (cons n (lazy-seq (sequs (- a n) l)))))))
+
+;; 195. Parentheses... Again
+(defn parens [n]
+  ((fn f [o c i s]
+     (if (= 0 i)
+       (if (not= o c) #{} #{s})
+       (clojure.set/union
+        (if (> o c)
+          (f o (inc c) (dec i) (str s ")")))
+        (if (< (- c o) (- i 1))
+          (f (inc o) c (dec i) (str s "("))))))
+   0 0 (* 2 n) ""))
