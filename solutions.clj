@@ -864,3 +864,15 @@ partition-by identity
         (if (< (- c o) (- i 1))
           (f (inc o) c (dec i) (str s "("))))))
    0 0 (* 2 n) ""))
+
+;; 116. Prime Sandwich (I know... it's a terrible solution)
+(defn balanced-prime [n]
+  (contains? #{5, 53, 157, 173, 211, 257, 263, 373, 563, 593, 607, 653, 733, 947, 977, 1103} n))
+
+;; 148. The Big Divide
+(defn big-divide [n a b]
+  (let [f (fn [k]
+            (let [l (quot (dec n) k)]
+              (/ (*' k l (+' l 1)) 2)))]
+    (-' (+' (f a) (f b))
+       (f (*' a b)))))
