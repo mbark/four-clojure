@@ -695,7 +695,6 @@ partition-by identity
              (filter #(= (first %) b) l)))
           l)))]
     (loop [res r n (f r)]
-      (println res n)
       (if (= res n)
         res
         (recur n (f n))))))
@@ -875,4 +874,38 @@ partition-by identity
             (let [l (quot (dec n) k)]
               (/ (*' k l (+' l 1)) 2)))]
     (-' (+' (f a) (f b))
-       (f (*' a b)))))
+        (f (*' a b)))))
+
+;; 150. Palindromic Numbers
+(defn palindromic-numbers [n]
+  (let [c (count (str n))
+        list->num #(first (reduce
+                           (fn [[n f] c]
+                             [(+ n (* c f)) (* f 10)])
+                           [0 1]
+                           (reverse %)))
+        num->list #(loop [n % d (if (zero? %) [%] [])]
+                     (if (zero? n)
+                       d
+                       (recur
+                        (quot n 10)
+                        (cons (mod n 10) d))))
+        prep #(let [l (num->list (inc %))
+                    s (count l)
+                    m (Math/ceil (/ s 2))]
+                [(take m l) (drop m l) s])
+        nextp (fn [[l1 l2 s]]
+                (if (every? true? (map >= l1 (reverse l2)))
+                  [l1 s]
+                  [(num->list (inc (list->num l1))) s]))
+        fin (fn [[ln s]] (list->num
+                          (concat ln
+                                  (if (odd? s)
+                                    (rest (reverse ln))
+                                    (reverse ln)))))
+        p? #(let [l (num->list %)]
+              (= l (reverse l)))
+        f #(fin (nextp (prep %)))]
+    (if (p? n)
+      (iterate f n)
+      (iterate f (f n)))))
