@@ -1,3 +1,4 @@
+(ns four_clojure.solutions)
 ;; Only solutions that require some form of code will be written here
 
 ;; 15. Write a function which doubles a number
@@ -909,3 +910,17 @@ partition-by identity
     (if (p? n)
       (iterate f n)
       (iterate f (f n)))))
+
+;; 82. Word Chains
+(memoize 
+  (fn f [x y]
+    (cond
+      (zero? (count x)) (count y)
+      (zero? (count y)) (count x)
+      (= (first x) (first y)) (f (rest x) (rest y))
+      :else
+      (min
+        (f (rest x) y)
+        (f x (rest y))
+        (f (rest x) (rest y)))))) 
+
