@@ -911,7 +911,7 @@ partition-by identity
       (iterate f n)
       (iterate f (f n)))))
 
-;; 82. Word Chains
+;; 101. Levenshtein Distance 
 (memoize 
   (fn f [x y]
     (cond
@@ -924,3 +924,23 @@ partition-by identity
         (f x (rest y))
         (f (rest x) (rest y)))))) 
 
+;; 82. Word Chains
+(defn word-chains [w]
+  (<=
+    (count w)
+    (get (frequencies (sort 
+                        (for [l1 (seq w) l2 (seq w)
+                              :when (< 0 (compare l1 l2))] 
+                          ((memoize 
+                             (fn f  [x y]
+                               (let  [cost  (if  (=  (first x)  (first y)) 0 1)]
+                                 (cond
+                                   (zero?  (count x))  (count y)
+                                   (zero?  (count y))  (count x)
+                                   (=  (first x)  (first y))  (f  (rest x)  (rest y))
+                                   :else
+                                   (min
+                                     (+ 1  (f  (rest x) y))
+                                     (+ 1  (f x  (rest y)))
+                                     (+ cost  (f  (rest x)  (rest y)))))))) l1 l2))))
+         1)))
