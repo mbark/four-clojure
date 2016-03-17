@@ -944,3 +944,22 @@ partition-by identity
                                      (+ 1  (f x  (rest y)))
                                      (+ cost  (f  (rest x)  (rest y)))))))) l1 l2))))
          1)))
+
+
+;; 91. Graph Connectivity
+(defn graph-connectivity
+  ([g]
+   (=
+    (set (flatten (seq g)))
+    (graph-connectivity (first (first g))
+                        (clojure.set/union g (map reverse g))
+                        #{})))
+  ([e g v]
+   (if (or (contains? v e) (nil? e))
+     v
+     (reduce
+       clojure.set/union
+       (map
+         #(graph-connectivity % g (conj v e))
+         (map last (filter #(= e (first %)) g)))))))
+
