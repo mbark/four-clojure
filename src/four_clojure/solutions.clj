@@ -911,8 +911,8 @@ partition-by identity
       (iterate f n)
       (iterate f (f n)))))
 
-;; 101. Levenshtein Distance 
-(memoize 
+;; 101. Levenshtein Distance
+(memoize
   (fn f [x y]
     (cond
       (zero? (count x)) (count y)
@@ -922,16 +922,16 @@ partition-by identity
       (min
         (f (rest x) y)
         (f x (rest y))
-        (f (rest x) (rest y)))))) 
+        (f (rest x) (rest y))))))
 
 ;; 82. Word Chains
 (defn word-chains [w]
   (<=
     (count w)
-    (get (frequencies (sort 
+    (get (frequencies (sort
                         (for [l1 (seq w) l2 (seq w)
-                              :when (< 0 (compare l1 l2))] 
-                          ((memoize 
+                              :when (< 0 (compare l1 l2))]
+                          ((memoize
                              (fn f  [x y]
                                (let  [cost  (if  (=  (first x)  (first y)) 0 1)]
                                  (cond
@@ -944,7 +944,6 @@ partition-by identity
                                      (+ 1  (f x  (rest y)))
                                      (+ cost  (f  (rest x)  (rest y)))))))) l1 l2))))
          1)))
-
 
 ;; 91. Graph Connectivity
 (defn graph-connectivity
@@ -963,3 +962,10 @@ partition-by identity
          #(graph-connectivity % g (conj v e))
          (map last (filter #(= e (first %)) g)))))))
 
+;; 106. Number Maze
+(defn number-maze
+  ([s e] (number-maze [s] e 1))
+  ([s e n]
+   (if (some #{e} s)
+     n
+     (number-maze (mapcat #(vector (* % 2) (+ % 2) (/ % 2)) s) e (inc n)))))
