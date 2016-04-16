@@ -1025,3 +1025,30 @@ partition-by identity
                     (e-idx row)))
         win-idxs #(keep win-idx %)]
     (set (remove nil? (mapcat win-idxs [b vert [diag1 diag2]])))))
+
+;; 117. For Science!
+(defn for-science
+  ([maze]
+   (for-science maze
+                #{}
+                [(flatten
+                  (keep-indexed
+                   (fn [i l]
+                     (keep-indexed #(if (= %2 \M) [i %1]) l))
+                   maze))]))
+  ([maze visited [el & r]]
+   (println el (get-in maze el))
+   (cond (nil? el) false
+         (= (get-in maze el) \C) true
+         :else
+         (let [[i j] el
+               unwalkable
+               #(or (visited %) (not-any? #{(get-in maze %)} [\space \C]))
+               neighbors
+               (remove unwalkable
+                       (vector [i (dec j)] [i (inc j)]
+                               [(dec i) j] [(inc i) j]))]
+           (for-science
+            maze
+            (set (conj visited [i j]))
+            (concat r neighbors))))))
