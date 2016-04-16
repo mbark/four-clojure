@@ -969,3 +969,38 @@ partition-by identity
    (if (some #{e} s)
      n
      (number-maze (mapcat #(vector (* % 2) (+ % 2) (/ % 2)) s) e (inc n)))))
+
+;; 94. Game of Life
+(defn game-of-life [board]
+  (let [cell-at #(nth (nth board %1) %2)
+        live? (fn [[i j]]
+                (= (cell-at i j) \#))
+        valid-idx? #(and
+                     (< % (count board))
+                     (>= % 0))
+        neighbor-idx
+        #(for [i (range (dec %1) (+ 2 %1))
+               j (range (dec %2) (+ 2 %2))
+               :when (and (valid-idx? i)
+                          (valid-idx? j)
+                          (not (and (= i %1) (= j %2))))]
+           [i j])
+        live-neighbors
+        #(count (filter live? (neighbor-idx %1 %2)))
+        next-gen
+        (fn [i j]
+          (let [alive (live? [i j])
+                living (live-neighbors i j)]
+            (if alive
+              (cond
+                (< living 2) \space
+                (> living 3) \space
+                :else \#)
+              (if (= living 3)
+                \#
+                \space))))]
+    (map-indexed
+     (fn [i row] (apply str (map-indexed
+                              (fn [j _] (println i j) (next-gen i j))
+                              row)))
+     board)))
