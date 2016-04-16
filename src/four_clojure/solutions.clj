@@ -1004,3 +1004,24 @@ partition-by identity
                               (fn [j _] (println i j) (next-gen i j))
                               row)))
      board)))
+
+;; 119 Win at Tic-Tac-Toe
+(defn win-at-ttt [piece board]
+  (let [b (apply vector  (map-indexed
+                          (fn [i row]
+                            (apply vector  (map-indexed #(vector %2 [i %1])
+                                                        row)))
+                          board))
+        vert (apply map list b)
+        diag (fn [idxs]
+               (map #(get-in b %)
+                    idxs))
+        diag1 (diag [[0 0] [1 1] [2 2]])
+        diag2 (diag [[0 2] [1 1] [2 0]])
+        win-row? #(= 2 (get (frequencies (map first %)) piece))
+        e-idx (fn [row] (some #(when (= :e (first %)) (last %)) row))
+        win-idx (fn [row]
+                  (when (win-row? row)
+                    (e-idx row)))
+        win-idxs #(keep win-idx %)]
+    (set (remove nil? (mapcat win-idxs [b vert [diag1 diag2]])))))
