@@ -1094,3 +1094,39 @@ partition-by identity
           (concat %1 [%2]))
        nil
        l))))
+
+;; 178. Best Hand
+(defn best-hand [c]
+  (let [cards (sort-by second
+                       (map
+                        (fn [[s r]]
+                          (vector s (case r
+                                      \A 1 \K 13 \Q 12 \J 11 \T 10
+                                      (- (int r) 48))))
+                        c))
+        has-ace? (some #{1} (map second cards))
+        inced? (reduce
+                (fn [[_ r] [s r2]]
+                  (if (= (inc r) r2)
+                    [s r2] [s -1]))
+                (if has-ace? (rest cards) cards))
+        straight? (and (> (second inced?) 0)
+                       (or
+                        (= 2 (second (second cards)))
+                        (= 13 (second (last cards)))))
+        flush? (not (nil? (reduce
+                           (fn [[s1 _] [s2 r]]
+                             (if (= s1 s2) [s2 r]))
+                           cards)))
+        all-of-a-kind (sort (map #(count (second %)) (group-by second cards)))
+        most-of-a-kind (apply max all-of-a-kind)]
+    (cond
+      (and straight? flush?) :straight-flush
+      (= 4 most-of-a-kind) :four-of-a-kind
+      (= [2 3] all-of-a-kind) :full-house
+      flush? :flush
+      straight? :straight
+      (= 3 most-of-a-kind) :three-of-a-kind
+      (= [1 2 2] all-of-a-kind) :two-pair
+      (= 2 most-of-a-kind) :pair
+      :else :high-card)))
