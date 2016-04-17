@@ -1052,3 +1052,37 @@ partition-by identity
             maze
             (set (conj visited [i j]))
             (concat r neighbors))))))
+
+;; 111. Crossword puzzle
+(defn crossword [word board]
+  (let [rows (map #(remove #{\space} %) board)
+        cols (apply map list rows)
+        match? (fn [i v] (or
+                          (and  (< i (count word))
+                                (= (nth word i) v))
+                          (= v \_)))
+        f #(reduce
+            (fn [[i & r] v]
+              (cond
+                (< i 0) (cons i r)
+                (match? i v) (cons (inc i) r)
+                (= v \#) (concat [0 i] r)
+                :else (cons -1 r)))
+            [0]
+            %)]
+    (not (nil?
+          (some
+           (fn [l]
+             (some #(= % (count word)) l))
+           (concat (map f rows)
+                   (map f cols)))))))
+
+(crossword "the" ["c _ _ _"
+                  "d _ # e"
+                  "r y _ _"])
+
+(crossword "the" ["c _ _ _"
+                  "d _ # e"
+                  "r y _ _"])
+
+(crossword "the" ["_ h e"])
