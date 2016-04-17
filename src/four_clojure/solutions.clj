@@ -1077,12 +1077,20 @@ partition-by identity
            (concat (map f rows)
                    (map f cols)))))))
 
-(crossword "the" ["c _ _ _"
-                  "d _ # e"
-                  "r y _ _"])
-
-(crossword "the" ["c _ _ _"
-                  "d _ # e"
-                  "r y _ _"])
-
-(crossword "the" ["_ h e"])
+;; 113. Making Data Dance
+(defn dance-data-dance [& l]
+  (reify
+    Object
+    (toString [this]
+      (reduce
+       (fn
+         ([] "")
+         ([o n] (str o ", " n))) (sort l)))
+    clojure.lang.Seqable
+    (seq [this]
+      (reduce
+       #(if (some #{%2} %1)
+          %1
+          (concat %1 [%2]))
+       nil
+       l))))
